@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "DM Sans", sans-serif;
+  overflow-x: clip;
+}
+
+.font-display {
+  font-family: "Sora", sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 44 36% 96%;
+    --foreground: 162 30% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 162 30% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 162 30% 12%;
+    --primary: 161 48% 22%;
+    --primary-foreground: 44 40% 96%;
+    --secondary: 42 32% 89%;
+    --secondary-foreground: 161 40% 16%;
+    --muted: 42 26% 90%;
+    --muted-foreground: 158 12% 38%;
+    --accent: 18 55% 50%;
+    --accent-foreground: 44 40% 97%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 20% 83%;
+    --input: 40 20% 83%;
+    --ring: 161 48% 22%;
+    --radius: 0.75rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  .dark {
+    --background: 162 25% 8%;
+    --foreground: 44 30% 94%;
+    --card: 162 20% 11%;
+    --card-foreground: 44 30% 94%;
+    --popover: 162 20% 11%;
+    --popover-foreground: 44 30% 94%;
+    --primary: 150 30% 60%;
+    --primary-foreground: 162 40% 10%;
+    --secondary: 162 15% 16%;
+    --secondary-foreground: 44 30% 94%;
+    --muted: 162 15% 16%;
+    --muted-foreground: 44 10% 65%;
+    --accent: 18 60% 58%;
+    --accent-foreground: 44 40% 97%;
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 162 12% 20%;
+    --input: 162 12% 20%;
+    --ring: 150 30% 60%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Sublinhado de marcador terracota */
+.marker {
+  background-image: linear-gradient(120deg, hsl(18 55% 50% / 0.32), hsl(18 55% 50% / 0.32));
+  background-repeat: no-repeat;
+  background-size: 100% 36%;
+  background-position: 0 88%;
+}
+
+/* Letreiro contínuo */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* Conteúdo de posts (markdown renderizado) */
+.prose-legal { color: hsl(var(--foreground)); line-height: 1.8; }
+.prose-legal h1 { font-family: "Sora", sans-serif; font-size: 1.9rem; font-weight: 700; margin: 1.6em 0 0.6em; }
+.prose-legal h2 { font-family: "Sora", sans-serif; font-size: 1.45rem; font-weight: 700; margin: 1.6em 0 0.5em; color: hsl(var(--primary)); }
+.prose-legal h3 { font-family: "Sora", sans-serif; font-size: 1.15rem; font-weight: 600; margin: 1.4em 0 0.4em; }
+.prose-legal h4 { font-family: "Sora", sans-serif; font-size: 1rem; font-weight: 600; margin: 1.2em 0 0.4em; }
+.prose-legal p { margin: 0 0 1.1em; }
+.prose-legal ul { list-style: disc; padding-left: 1.4rem; margin: 0 0 1.1em; }
+.prose-legal ol { list-style: decimal; padding-left: 1.4rem; margin: 0 0 1.1em; }
+.prose-legal li { margin-bottom: 0.35em; }
+.prose-legal blockquote {
+  border-left: 3px solid hsl(var(--accent));
+  background: hsl(var(--secondary));
+  padding: 0.9rem 1.2rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+  margin: 0 0 1.2em;
+  font-style: italic;
+}
+.prose-legal a { color: hsl(var(--primary)); text-decoration: underline; text-underline-offset: 3px; }
+.prose-legal img { border-radius: 0.75rem; margin: 1.2rem 0; max-width: 100%; }
+.prose-legal table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: 0.95rem; }
+.prose-legal th { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); text-align: left; padding: 0.6rem 0.8rem; }
+.prose-legal td { border-bottom: 1px solid hsl(var(--border)); padding: 0.6rem 0.8rem; }
+.prose-legal code { background: hsl(var(--muted)); padding: 0.1em 0.35em; border-radius: 0.35rem; font-size: 0.9em; }
+.prose-legal hr { border-color: hsl(var(--border)); margin: 1.6rem 0; }

@@ -1,0 +1,32 @@
+{$APP_DOMAIN} {
+    encode gzip zstd
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        -Server
+    }
+
+    @api path /hcgi/api/*
+    handle @api {
+        uri strip_prefix /hcgi/api
+        reverse_proxy api:3001
+    }
+
+    @pbadmin path /hcgi/platform/_/*
+    respond @pbadmin 403
+
+    @platform path /hcgi/platform/*
+    handle @platform {
+        uri strip_prefix /hcgi/platform
+        reverse_proxy pocketbase:8090
+    }
+
+    handle {
+        reverse_proxy web:80
+    }
+}
+

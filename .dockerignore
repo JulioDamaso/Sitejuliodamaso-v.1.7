@@ -1,0 +1,12 @@
+node_modules
+**/node_modules
+dist
+apps/pocketbase/pb_data
+apps/api/.env
+deploy/.env.production
+deploy/caddy_data
+deploy/caddy_config
+*.log
+.git
+.gitignore
+

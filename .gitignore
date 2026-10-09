@@ -1,0 +1,17 @@
+# Dependências e artefatos
+node_modules/
+dist/
+*.log
+
+# Segredos e dados locais
+apps/api/.env
+apps/pocketbase/.encryption-key
+apps/pocketbase/pb_data/
+deploy/.env.production
+deploy/caddy_data/
+deploy/caddy_config/
+
+# Arquivos temporários de backup local
+*.bak
+*.backup
+

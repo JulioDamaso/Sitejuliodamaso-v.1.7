@@ -1,0 +1,73 @@
+services:
+  pocketbase:
+    build:
+      context: ..
+      dockerfile: deploy/pocketbase.Dockerfile
+    restart: unless-stopped
+    environment:
+      PB_ENCRYPTION_KEY: ${PB_ENCRYPTION_KEY:?Defina PB_ENCRYPTION_KEY no arquivo deploy/.env.production}
+    volumes:
+      - ../apps/pocketbase/pb_data:/pb/pb_data
+    expose:
+      - "8090"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8090/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/api.Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      POCKETBASE_URL: http://pocketbase:8090
+      TRUST_PROXY: "1"
+      CORS_ORIGIN: https://${APP_DOMAIN}
+      PB_SUPERUSER_EMAIL: ${PB_SUPERUSER_EMAIL:?Defina PB_SUPERUSER_EMAIL no arquivo deploy/.env.production}
+      PB_SUPERUSER_PASSWORD: ${PB_SUPERUSER_PASSWORD:?Defina PB_SUPERUSER_PASSWORD no arquivo deploy/.env.production}
+      DATAJUD_API_KEY: ${DATAJUD_API_KEY:-}
+      DJEN_BASE_URL: ${DJEN_BASE_URL:-https://comunicaapi.pje.jus.br/api/v1}
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      GOOGLE_CALENDAR_WEBHOOK_URL: ${GOOGLE_CALENDAR_WEBHOOK_URL:-}
+      GOOGLE_CALENDAR_WEBHOOK_TOKEN: ${GOOGLE_CALENDAR_WEBHOOK_TOKEN:-}
+    depends_on:
+      pocketbase:
+        condition: service_healthy
+    expose:
+      - "3001"
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/web.Dockerfile
+      args:
+        VITE_GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+    restart: unless-stopped
+    expose:
+      - "80"
+
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?Defina APP_DOMAIN no arquivo deploy/.env.production}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - api
+      - pocketbase
+
+volumes:
+  caddy_data:
+  caddy_config:
+
